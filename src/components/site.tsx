@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router";
 import { useEffect, useRef, type ReactNode } from "react";
 import { PlayCircle } from "lucide-react";
 

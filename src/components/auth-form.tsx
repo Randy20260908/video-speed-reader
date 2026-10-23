@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router";
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,7 +29,7 @@ export function AuthForm({ mode }: { mode: "signin" | "signup" }) {
       toast.success("Check your email to confirm your account.");
       return;
     }
-    navigate({ to: "/app" });
+    navigate("/app");
   }
 
   return (
