@@ -1,23 +1,22 @@
-import { useNavigate } from "react-router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Footer, Logo } from "@/components/site";
-import { usePageMeta } from "@/hooks/use-page-meta";
-import { useAuthenticatedUser } from "./authenticated";
 
-export function AppPage() {
-  usePageMeta("Dashboard — Video Speed Reader", "Your Video Speed Reader dashboard.");
-  const user = useAuthenticatedUser();
-  const navigate = useNavigate();
+export function AppPage({ email }: { email: string }) {
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   async function signOut() {
     await queryClient.cancelQueries();
     queryClient.clear();
-    await supabase.auth.signOut();
-    navigate("/auth", { replace: true });
+    await createClient().auth.signOut();
+    router.replace("/auth");
+    router.refresh();
   }
 
   return (
@@ -31,7 +30,7 @@ export function AppPage() {
         </div>
       </header>
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-20 sm:px-6">
-        <h1 className="break-words text-3xl font-bold sm:text-4xl">Hi {user.email}</h1>
+        <h1 className="break-words text-3xl font-bold sm:text-4xl">Hi {email}</h1>
         <div className="mt-8 rounded-2xl border border-dashed border-border bg-card p-8 text-muted-foreground">
           Your dashboard is coming soon. Upload functionality will be added in the next milestone.
         </div>

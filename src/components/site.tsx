@@ -1,10 +1,12 @@
-import { Link } from "react-router";
+"use client";
+
+import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
 import { PlayCircle } from "lucide-react";
 
 export function Logo() {
   return (
-    <Link to="/" className="flex items-center gap-2 font-semibold tracking-tight text-foreground">
+    <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight text-foreground">
       <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-primary shadow-glow">
         <PlayCircle className="h-4 w-4 text-primary-foreground" />
       </span>

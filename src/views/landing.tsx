@@ -1,8 +1,9 @@
-import { Link } from "react-router";
+"use client";
+
+import Link from "next/link";
 import { AudioLines, Timer, BadgeCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer, Logo, Reveal } from "@/components/site";
-import { usePageMeta } from "@/hooks/use-page-meta";
 
 const features = [
   { icon: AudioLines, title: "高準確度逐字稿", en: "High-accuracy transcripts", body: "Powered by OpenAI Whisper. Supports Chinese and English." },
@@ -10,18 +11,14 @@ const features = [
   { icon: BadgeCheck, title: "可商用授權", en: "Commercial-use ready", body: "You own the output. Use it however you like." },
 ];
 
-export function Index() {
-  usePageMeta(
-    "Video Speed Reader — Transcripts in three minutes",
-    "Upload your video, get a clean, accurate transcript in three minutes. Chinese and English supported.",
-  );
+export function Landing() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-20 border-b border-border bg-background/80 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <Logo />
           <Button asChild className="bg-gradient-primary shadow-glow hover:opacity-90">
-            <Link to="/auth">Sign in / 登入</Link>
+            <Link href="/auth">Sign in / 登入</Link>
           </Button>
         </div>
       </header>
@@ -41,10 +38,10 @@ export function Index() {
               <p className="mt-3 text-lg text-muted-foreground">Upload your video, get a clean transcript in three minutes.</p>
               <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
                 <Button asChild size="lg" className="bg-gradient-primary shadow-glow hover:opacity-90">
-                  <Link to="/signup">Get started free</Link>
+                  <Link href="/signup">Get started free</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <Link to="/auth">Sign in / 登入</Link>
+                  <Link href="/auth">Sign in / 登入</Link>
                 </Button>
               </div>
             </Reveal>
