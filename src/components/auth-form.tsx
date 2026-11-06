@@ -29,6 +29,12 @@ export function AuthForm({ mode }: { mode: "signin" | "signup" }) {
       toast.error(error.message);
       return;
     }
+    // Supabase answers a sign-up for an existing email with a user that has no
+    // identities (and sends no email), to avoid revealing which emails exist.
+    if (isSignup && data.user && data.user.identities?.length === 0) {
+      toast.error("This email is already registered. Sign in, or reset your password.");
+      return;
+    }
     if (!data.session) {
       toast.success("Check your email to confirm your account.");
       return;
@@ -52,7 +58,14 @@ export function AuthForm({ mode }: { mode: "signin" | "signup" }) {
           <Input id="email" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password">Password</Label>
+            {!isSignup && (
+              <Link href="/forgot-password" className="text-xs text-primary-glow hover:underline">
+                Forgot password?
+              </Link>
+            )}
+          </div>
           <Input id="password" type="password" required minLength={6} autoComplete={isSignup ? "new-password" : "current-password"} value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <Button type="submit" disabled={loading} className="w-full bg-gradient-primary hover:opacity-90">
