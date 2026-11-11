@@ -1,0 +1,25 @@
+[Unit]
+Description=M1 Whisper distributor (polls Supabase, spawns worker.py)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/app/worker
+ExecStart=/home/ubuntu/app/worker/venv/bin/python /home/ubuntu/app/worker/distributor.py
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/m1-distributor.log
+StandardError=append:/var/log/m1-distributor.log
+# systemd's default PATH is /usr/bin:/bin, which hides the venv's yt-dlp from
+# worker.py's subprocess calls. Prepend the venv bin dir explicitly.
+Environment=PATH=/home/ubuntu/app/worker/venv/bin:/usr/local/bin:/usr/bin:/bin
+# Region for boto3 (Secrets Manager). Must match where the m1-worker EC2 and the
+# secrets live: us-east-1 for this project.
+Environment=AWS_DEFAULT_REGION=us-east-1
+# Flush Python prints straight to the log file.
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
